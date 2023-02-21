@@ -17,12 +17,12 @@ class HackerrankSession:
     this method logs in the user with a selenium driver
     """
     self.__driver = webdriver.Chrome(ChromeDriverManager().install())
-    self.__driver.get('https://mail.google.com/mail/u/0/#inbox?compose=new')
-    m = self.__driver.find_element_by_name("username")
+    self.__driver.get('https://www.hackerrank.com/auth/login')
+    m = self.__driver.find_element("name","username")
     m.send_keys(username)
-    m = self.__driver.find_element_by_name("password")
+    m = self.__driver.find_element("name","password")
     m.send_keys(password)
-    self.__driver.find_element_by_css_selector(".ui-btn.ui-btn-primary").click()
+    self.__driver.find_element("css selector",".ui-btn.ui-btn-primary").click()
 
   def logout(self):
     pass
@@ -55,9 +55,8 @@ class UserContestSubmissions:
       """
       
       self.hr_session.fetch_link(src_link)
-      code_elements = self.hr_session.driver.find_elements_by_class_name("CodeMirror-line")
+      code_elements = self.hr_session.driver.find_elements("class name","CodeMirror-line")
       return "\n".join([line.text for line in code_elements])
-
 
     def __parse_submission_row(self, submission_item):
       """
@@ -67,17 +66,17 @@ class UserContestSubmissions:
       not_required = ['status','during_contest']
       cols = {}
       # for each column
-      for i, column in enumerate(submission_item.find_elements_by_tag_name("div")):
+      for i, column in enumerate(submission_item.find_elements("tag name","div")):
         # if attribute contains an "a" tag get the href
         # else if it contains a p tag get the text and stript it. check if it has attribute of data_otiginal_title
         # else set the value to be empty
         try:
-          val = column.find_element_by_tag_name("a").get_attribute('href')
+          val = column.find_element("tag name","a").get_attribute('href')
           if i < (len(headers) - 1):
             val = val[val.rindex('/')+1:]
         except:
           try:
-            val = column.find_element_by_tag_name("p").text.strip()
+            val = column.find_element("tag name","p").text.strip()
             if headers[i] == 'time':
               val = int(val)
             elif headers[i] == 'score':
@@ -99,12 +98,13 @@ class UserContestSubmissions:
     def __fetch_latest_user_attempts(self, user_attempts, last_fetch_time):
       """
       parses best score recent attempts on a single page
-      user_attempts: dict of problems attempted by user fromt he database
+      user_attempts: dict of problems attempted by user from the database
       last_fetch_time: time when the database was last updated for the user
       """
       # for each row.
       current_item_time = last_fetch_time
-      for submission_item in self.hr_session.driver.find_elements_by_class_name("submissions_item"):
+      for submission_item in self.hr_session.driver.find_elements("class name","submissions_item"):
+        
         cols = self.__parse_submission_row(submission_item)
         current_item_time = cols["time"]
         # assign only if needed
@@ -113,7 +113,7 @@ class UserContestSubmissions:
         if problem_slug in user_attempts: # user already attempted this earlier
           prev_score = user_attempts[problem_slug]["score"]
           
-          print("prev_score dict = ", prev_score)
+          print("prev_score = ", prev_score)
           if prev_score < cols["score"] or (prev_score == cols["score"] and last_fetch_time < current_item_time):
             #if not set for insertion then only updates
             cols["insert"] = user_attempts[problem_slug].get("insert", False)
@@ -137,7 +137,7 @@ class UserContestSubmissions:
       contest_submission_url = f"contests/{self.contest_slug}/judge/submissions/team/{self.username}/{page_number}"
       self.hr_session.fetch_link(contest_submission_url)
       try: 
-        self.hr_session.driver.find_element_by_css_selector("div.pagination > ul > li.active")
+        self.hr_session.driver.find_element("css selector","div.pagination > ul > li.active")
       except: #
         #  selenium.common.exceptions.NoSuchElementException
         return False
@@ -162,6 +162,8 @@ class UserContestSubmissions:
         if time_processed <= last_fetch_time:
           break
         page +=1
+      # if self.__fetch_submission_page(page):
+      #   print(self.__fetch_latest_user_attempts(user_attempts, last_fetch_time))
       
       # print(user_attempts['python-print']["problem_slug"])
       # fetch the source code for user_attempts that do not have the code populated
@@ -179,7 +181,7 @@ class SQLprocessor:
     self.mydb = connector.connect(
                                 host="localhost",
                                 user="root",
-                                password="",
+                                password="swaroop@4468",
                                 database = "test")
 
     self.cursor = self.mydb.cursor(buffered = True)
@@ -215,7 +217,7 @@ class SQLprocessor:
     insert if not exists and passes if same and update if exists
     attempts: dict(problem_slug->attempt) Its a list which contains problem_slug after last fetch time
     """
-    print(attempts)
+    print("dbbbbbbbbb",attempts)
     for attempt in attempts:
       i = attempts[attempt]
 
@@ -239,13 +241,14 @@ hr_session = HackerrankSession("capmentor01","VITBHackers21!" )
 sql_proc = SQLprocessor()
 username = "20PA1A0412"
 contest_slug = "test-contest00"
-submission_list = sql_proc.fetch_last_attempt_time(username,contest_slug)
-last_fetch_time = int(submission_list)
-print("Last fetch time = ",last_fetch_time)
+last_fetch_time = sql_proc.fetch_last_attempt_time(username,contest_slug)
+# last_fetch_time = 0
+# print("Last fetch time = ",last_fetch_time)
 # get the max time from current_user_attempts and set it to last_fetch_time.
 contest_submissions = UserContestSubmissions(username,contest_slug , hr_session)
 prev_attempts = sql_proc.fetch_user_attempts(username, contest_slug)
-print("Prev attempts = ",prev_attempts)
+# prev_attempts = {}
+# print("Prev attempts = ",prev_attempts)
 current_user_submissions = contest_submissions.fetch_latest_submissions(prev_attempts, last_fetch_time)
 # print(current_user_submissions[0],current_user_submissions[1])
 sql_proc.upsert_user_attempts(username, contest_slug, current_user_submissions)
