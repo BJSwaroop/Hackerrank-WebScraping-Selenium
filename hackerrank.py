@@ -104,7 +104,11 @@ class UserContestSubmissions:
       # for each row.
       current_item_time = last_fetch_time
       for submission_item in self.hr_session.driver.find_elements("class name","submissions_item"):
-        
+        # list = submission_item.find_elements("tag name","div")
+        # print("list ",list)
+        # print("question ",list[0].find_element("tag name","a").get_attribute('href'))
+        # print("time ",list[4])
+        # print("score ",list[6])
         cols = self.__parse_submission_row(submission_item)
         current_item_time = cols["time"]
         # assign only if needed
@@ -113,7 +117,7 @@ class UserContestSubmissions:
         if problem_slug in user_attempts: # user already attempted this earlier
           prev_score = user_attempts[problem_slug]["score"]
           
-          print("prev_score = ", prev_score)
+          # print("prev_score = ", prev_score)
           if prev_score < cols["score"] or (prev_score == cols["score"] and last_fetch_time < current_item_time):
             #if not set for insertion then only updates
             cols["insert"] = user_attempts[problem_slug].get("insert", False)
@@ -339,7 +343,7 @@ CREATE TABLE `CAPHRProblemBestAttempt` (
     `score` int(1) NOT NULL DEFAULT 0,
     `max_score` int(1) NOT NULL
 );
-"""
+"""  
             
             
 
