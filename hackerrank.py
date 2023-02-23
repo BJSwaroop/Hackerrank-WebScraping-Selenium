@@ -144,10 +144,15 @@ class UserContestSubmissions:
       self.hr_session.fetch_link(contest_submission_url)
       try: 
         self.hr_session.driver.find_element("css selector","div.pagination > ul > li.active")
+      
       except: #
+        
+        try:
+          if self.hr_session.driver.find_element("css selector","div.pagination"):
+            return False
+        except:
+          return True
         #  selenium.common.exceptions.NoSuchElementException
-        return False
-
       return True
 
     """
@@ -249,6 +254,7 @@ hr_session = HackerrankSession("capmentor01","VITBHackers21!" )
 sql_proc = SQLprocessor()
 users = ["20PA1A0412","20Pa1a5430","20Pa1a5435","20PA1A0428","baluakula2000"]
 contest_slug = "test-contest00"
+# username = "20Pa1a5430"
 for username in users:
     last_fetch_time = sql_proc.fetch_last_attempt_time(username,contest_slug)
     # last_fetch_time = 0
