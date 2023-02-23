@@ -1,4 +1,4 @@
-python 3
+python
 selenium
 mysql
 

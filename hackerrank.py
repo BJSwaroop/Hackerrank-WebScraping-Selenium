@@ -24,6 +24,8 @@ class HackerrankSession:
     m.send_keys(password)
     self.__driver.find_element("css selector",".ui-btn.ui-btn-primary").click()
 
+
+
   def logout(self):
     pass
 
@@ -162,10 +164,12 @@ class UserContestSubmissions:
       # TODO: fetch from the database the problems done by the user in this contest
       # and store it in user_attempt dict
       while self.__fetch_submission_page(page):
+        print("In page")
         time_processed = self.__fetch_latest_user_attempts(user_attempts, last_fetch_time)
         if time_processed <= last_fetch_time:
           break
         page +=1
+      print("OUT")
       # if self.__fetch_submission_page(page):
       #   print(self.__fetch_latest_user_attempts(user_attempts, last_fetch_time))
       
@@ -243,20 +247,21 @@ class SQLprocessor:
 
 hr_session = HackerrankSession("capmentor01","VITBHackers21!" )
 sql_proc = SQLprocessor()
-username = "20PA1A0412"
+users = ["20PA1A0412","20Pa1a5430","20Pa1a5435","20PA1A0428","baluakula2000"]
 contest_slug = "test-contest00"
-last_fetch_time = sql_proc.fetch_last_attempt_time(username,contest_slug)
-# last_fetch_time = 0
-# print("Last fetch time = ",last_fetch_time)
-# get the max time from current_user_attempts and set it to last_fetch_time.
-contest_submissions = UserContestSubmissions(username,contest_slug , hr_session)
-prev_attempts = sql_proc.fetch_user_attempts(username, contest_slug)
-# prev_attempts = {}
-# print("Prev attempts = ",prev_attempts)
-current_user_submissions = contest_submissions.fetch_latest_submissions(prev_attempts, last_fetch_time)
-# print(current_user_submissions[0],current_user_submissions[1])
-sql_proc.upsert_user_attempts(username, contest_slug, current_user_submissions)
-# sql_proc.insert_data(current_user_submissions)
+for username in users:
+    last_fetch_time = sql_proc.fetch_last_attempt_time(username,contest_slug)
+    # last_fetch_time = 0
+    # print("Last fetch time = ",last_fetch_time)
+    # get the max time from current_user_attempts and set it to last_fetch_time.
+    contest_submissions = UserContestSubmissions(username,contest_slug , hr_session)
+    prev_attempts = sql_proc.fetch_user_attempts(username, contest_slug)
+    # prev_attempts = {}
+    # print("Prev attempts = ",prev_attempts)
+    current_user_submissions = contest_submissions.fetch_latest_submissions(prev_attempts, last_fetch_time)
+    # print(current_user_submissions[0],current_user_submissions[1])
+    sql_proc.upsert_user_attempts(username, contest_slug, current_user_submissions)
+    # sql_proc.insert_data(current_user_submissions)
 
 """
 Above is test code.
