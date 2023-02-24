@@ -1,5 +1,8 @@
 import mysql.connector as connector
 class SQLprocessor:
+    user_attempt = []
+    user_problems_info = {}
+    problems_to_check = []
     def __init__(self):
 
         self.mydb = connector.connect(
@@ -59,21 +62,46 @@ class SQLprocessor:
             else:
                 pass
         self.mydb.commit()
-    def get_user__problems_list(self,username):
-      """
-      TODO: This function will return list, which consists of all the problems or attempts of a user
-      """
-      
+    def get_user_problems_list(self,username):
+        """
+        TODO: This function will return list, which consists of all the problems or attempts of a user
+        """
+        query = f""" 
+                SELECT problem_slug,language,score, source_code
+                from CAPHRProblemBestAttempt
+                where username="{username}";
+            """
+        self.cursor.execute(query)
+        records = self.cursor.fetchall()
+        self.user_attempt = []
+        self.user_problems_info = {}
+        for row in records:
+            self.user_attempt.append(row[0])
+            self.user_problems_info[row[0]] = row[1:]
+        # print(user_attempt)
+        # print(problems_info)
+    def get_valid_source_codes_for_each_problem(self, username):
+        """
+        TODO: This function is used to get all the valid source quotes which match the problem slug the score the difficulty level the language. 
+        And then there will be two cases. One is for easy difficulty level problems where we will compare the string length also string length in the sense, 
+        the source code length and another case where the difficulty level is medium or hard. 
+        In that case we will just fetch the source codes with same score.
+        """
 
-      pass
-    def get_valid_source_codes_for_each_problem(self, username,problem_slug,difficulty_level,language,score,source_code):
-      """
-      TODO: This function is used to get all the valid source quotes which match the problem slug the score the difficulty level the language. 
-      And then there will be two cases. One is for easy difficulty level problems where we will compare the string length also string length in the sense, 
-      the source code length and another case where the difficulty level is medium or hard. 
-      In that case we will just fetch the source codes with same score.
-      """
-      pass
+        query = f"""
+            Select username, problem_slug, language, score,source_code time from CAPHRProblemBestAttempt c1 
+            WHERE problem_slug IN
+            (SELECT problem_slug
+            from CAPHRProblemBestAttempt c2 
+            where username="{username}" 
+            and c1.score = c2.score) 
+            and not c1.username = "{username}"
+            order by problem_slug; 
+        """
+
+        self.cursor.execute(query)
+        self.problems_to_check = self.cursor.fetchall()
+# sql.get_valid_source_codes_for_each_problem("20PA1A0412")
 """
 The Database
 ------------
