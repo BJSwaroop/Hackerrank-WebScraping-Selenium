@@ -2,7 +2,7 @@ import mysql.connector as connector
 class SQLprocessor:
     user_attempt = []
     user_problems_info = {}
-    problems_to_check = []
+    problems_to_check = {}
     def __init__(self):
 
         self.mydb = connector.connect(
@@ -100,8 +100,18 @@ class SQLprocessor:
         """
 
         self.cursor.execute(query)
-        self.problems_to_check = self.cursor.fetchall()
-# sql.get_valid_source_codes_for_each_problem("20PA1A0412")
+        records = self.cursor.fetchall()
+
+        for row in records:
+            if row[1] in self.problems_to_check:
+                ProbList = self.problems_to_check.get(row[1])
+                ProbList.append(row)
+                self.problems_to_check[row[1]] = ProbList
+            else:
+                list = []
+                list.append(row)
+                self.problems_to_check[row[1]] = list
+
 """
 The Database
 ------------
