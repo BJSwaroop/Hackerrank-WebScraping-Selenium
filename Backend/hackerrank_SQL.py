@@ -111,6 +111,23 @@ class SQLprocessor:
                 list = []
                 list.append(row)
                 self.problems_to_check[row[1]] = list
+    def upsert_users_table(self):
+        """
+        inserts new users into the databases
+        """
+        pass
+    def get_users_table(self):
+        """
+        fetches the current users
+        """
+        pass
+    def upsert_contest_table(self):
+        """
+        
+        """
+        pass
+    def upsert_difficulty_level_table(self):
+        pass
 
 """
 The Database
