@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { HackerrankPlagiarismCheckComponent } from './hackerrank-plagiarism-check/hackerrank-plagiarism-check.component';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { Interceptor } from './interceptor';
+import { UsersAttemptsComponent } from './users-attempts/users-attempts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HackerrankPlagiarismCheckComponent
+    HackerrankPlagiarismCheckComponent,
+    UsersAttemptsComponent
   ],
   imports: [
     BrowserModule,
