@@ -11,11 +11,20 @@ class HRMain:
         self.adminPassword = adminPassword
         self.contest_slug = contest_slug
     def fetchData(self):
+        """
+        This function is used to fetch the latest data of all the users of the contest and store it in DB.
+        First it will fetch the usernames(All the registered users) then it will get the data of all the users.
+        """
         print("Hello")
         hr_session = HackerrankSession(self.adminUsername, self.adminPassword)
         sql_proc = SQLprocessor() 
 
         usernames = hr_session.fetch_users(self.contest_slug)
+        """
+        This will get the all latetst users registered for the contest
+        """
+
+
         # usernames = ["a","b"]
         # for username in usernames:
         #     last_fetch_time = sql_proc.fetch_last_attempt_time(username, self.contest_slug)
