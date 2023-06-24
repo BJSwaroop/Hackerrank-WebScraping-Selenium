@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HackerrankPlagiarismCheckComponent } from './hackerrank-plagiarism-check/hackerrank-plagiarism-check.component';
+import { UsersAttemptsComponent } from './users-attempts/users-attempts.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('src/app/payments/payments.module').then(m => m.PaymentsModule),
-  }
+  {path: '',component: HackerrankPlagiarismCheckComponent},
+  {path: 'usersAttempts',component: UsersAttemptsComponent}
 ];
 
 @NgModule({
