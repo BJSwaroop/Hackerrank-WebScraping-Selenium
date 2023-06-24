@@ -26,7 +26,7 @@ class Credentials(BaseModel):
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/fetchUsers/")
+# @app.post("/fetchUsers/")
 # async def create_item():
 
 #     hr = HRMain()
@@ -42,7 +42,7 @@ async def create_item(cred: Credentials):
 
     hr = HRMain(cred.username,cred.password,cred.contest)
     # print(cred.username,cred.password,cred.contest)
-    users = hr.fetchData()
+    users = hr.fetchData("capmentor01","VITBHackers21!","test-contest00")
 
     # print(item.username)
     # print(item.password)

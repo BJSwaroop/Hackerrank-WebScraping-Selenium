@@ -11,18 +11,21 @@ class HRMain:
         self.adminPassword = adminPassword
         self.contest_slug = contest_slug
     def fetchData(self):
-        print("Hello")
+        # print("Hello")
         hr_session = HackerrankSession(self.adminUsername, self.adminPassword)
         sql_proc = SQLprocessor() 
 
         usernames = hr_session.fetch_users(self.contest_slug)
         # usernames = ["a","b"]
-        # for username in usernames:
-        #     last_fetch_time = sql_proc.fetch_last_attempt_time(username, self.contest_slug)
-        #     # get the max time from current_user_attempts and set it to last_fetch_time.
-        #     contest_submissions = UserContestSubmissions(username, self.contest_slug, hr_session)
-        #     prev_attempts = sql_proc.fetch_user_attempts(username, self.contest_slug)
-        #     current_user_submissions = contest_submissions.fetch_latest_submissions(prev_attempts, last_fetch_time)
-        #     sql_proc.upsert_user_attempts(username, self.contest_slug, current_user_submissions)
+        for username in usernames:
+            last_fetch_time = sql_proc.fetch_last_attempt_time(username, self.contest_slug)
+            # get the max time from current_user_attempts and set it to last_fetch_time.
+            contest_submissions = UserContestSubmissions(username, self.contest_slug, hr_session)
+            prev_attempts = sql_proc.fetch_user_attempts(username, self.contest_slug)
+            current_user_submissions = contest_submissions.fetch_latest_submissions(prev_attempts, last_fetch_time)
+            sql_proc.upsert_user_attempts(username, self.contest_slug, current_user_submissions)
         return usernames
+hr = HRMain("capmentor01","VITBHackers21!","test-contest00")
+# print(cred.username,cred.password,cred.contest)
+users = hr.fetchData()
 
