@@ -37,13 +37,32 @@ def read_root():
 #     # print(item.password)
 #     # print(item.contest)
 #     return d
-@app.post("/fetchUsers/")
+@app.post("/fetchold/")
 async def create_item(cred: Credentials):
-
+    """
+    this will get the current users in the database with their scores.
+    """
+    # hr = HRMain(cred.username,cred.password,cred.contest)
+    # users = hr.fetchData()
+    users = [
+    { "username": '20PA1A0412', "score": 80 },
+    { "username": '20Pa1a5430', "score": 95 },
+    { "username": '20pa1a5435', "score": 70 }
+    ]
+    return users
+@app.post("/fetchlatest/")
+async def create_item(cred: Credentials):
+    """
+    It will fetch the latest users. By scrapping the data.  
+    """
     hr = HRMain(cred.username,cred.password,cred.contest)
-    # print(cred.username,cred.password,cred.contest)
-    users = hr.fetchData("capmentor01","VITBHackers21!","test-contest00")
 
+    # print(cred.username,cred.password,cred.contest)
+    # users = hr.fetchData()
+    users = [
+    { "username": '20PA1A0412', "score": 80 },
+    { "username": '20Pa1a5430', "score": 95 },
+    ]
     # print(item.username)
     # print(item.password)
     # print(item.contest)

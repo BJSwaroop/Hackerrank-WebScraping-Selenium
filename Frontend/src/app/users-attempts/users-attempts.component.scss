@@ -1,0 +1,98 @@
+.section8{
+    max-width:800px;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto;
+
+    h3, h1 {
+        text-align: center;
+    }
+    h1 {
+        font-size: 35px;
+        font-weight: 500;
+        margin-top: 70px;
+        margin-bottom: 30px;
+    }
+
+    .congrats {
+        font-size: 120%;
+        font-family: 'Poppins', sans-serif;
+        ol {
+            padding: 20px;
+            text-align: justify;
+            li {
+                margin-top: 15px;
+            }
+        }
+        p {
+            text-align: justify;
+        }
+
+        h3 {
+            margin-top: 30px;
+            font-size: 150%;
+        }
+    }
+}
+mat-label,mat-hint,mat-error,input{
+    font-family: 'Montserrat', sans-serif;
+}
+mat-form-field {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.button{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.important {
+    font-style: italic;
+}
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .box {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  thead {
+    background-color: #f9f9f9;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  

@@ -13,7 +13,6 @@ user_problems_info= sql.user_problems_info
 # this is a dictionary with user attempts as key and language,time, 
 problems_to_check= sql.problems_to_check
 
-
 for attempt in user_attempts:
   curr_attempt = user_problems_info.get(attempt)
   """

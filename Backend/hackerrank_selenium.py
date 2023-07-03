@@ -128,7 +128,6 @@ class UserContestSubmissions:
 
             if headers[i] not in not_required:
                 cols[headers[i]] = val
-
         return cols
 
     def __fetch_latest_user_attempts(self, user_attempts, last_fetch_time):
@@ -193,7 +192,6 @@ class UserContestSubmissions:
         for problem_slug, attempt in final_attempts.items():
             if not attempt.get("source_code", False) and attempt.get("srclink", False):
                 attempt["source_code"] = self.__fetch_code(attempt["srclink"])
-
         return final_attempts
 
 
