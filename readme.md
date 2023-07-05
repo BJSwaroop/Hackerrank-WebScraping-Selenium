@@ -44,7 +44,13 @@ The sql queries are stored here. These query helps us to perform CRUD operation 
 # Setting Up Database:
 
 We will be using MySQL Database to store the results,
-Download and Install MySQL Database
+Download and Install MySQL Database. 
+When mysql is running at localhost 3360 then create a database with name test.
+then makesure there are no errors in chromedriver, Rest it will create the tables and You are ready to go
+
+Install the requirements then run the command it will fetch all the latest attempts.
+
+
 
 # Screenshots
 ![Screenshot](https://github.com/)
