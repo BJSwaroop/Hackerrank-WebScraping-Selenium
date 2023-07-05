@@ -41,7 +41,10 @@ hackerank_SQL.
 The sql queries are stored here. These query helps us to perform CRUD operation like fetching problems adding new users etc..
 
 
+# Setting Up Database:
 
+We will be using MySQL Database to store the results,
+Download and Install MySQL Database
 
 # Screenshots
 ![Screenshot](https://github.com/)
