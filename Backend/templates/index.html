@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Latest Users</title>
+    <style>
+            *{
+                font-family: monospace;
+            }    
+            body {
+                margin: 0;
+                background:linear-gradient(to right, #83a4d4, #b6fbff);
+            }
+            .header{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .container{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            h1 {
+                font-size:3rem;
+                color: white;
+            }
+            
+            button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 5px;
+            }
+            
+            button:hover {
+                background-color: #45a049;
+            }
+            
+            form {
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            label {
+                display: block;
+                margin: 10px 0 5px;
+                color: #555;
+            }
+            
+            input {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            
+            /* Center the form and buttons */
+            center {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* Additional styles for better responsiveness */
+            @media (max-width: 600px) {
+                form {
+                    width: 80%;
+                }
+            }
+            
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="">
+            <center><h1>Hackerrank Plagiarism Checker</h1></center>
+        </div>
+        <form id="fetchForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+            
+            <label for="contestSlug">Contest Name:</label>
+            <input type="text" id="contestSlug" name="contestSlug" required><br>
+            
+            <button type="button" onclick="fetchOld()">Fetch Old</button>
+            <button type="button" onclick="fetchLatest()">Fetch Latest</button>
+            <button onclick="reset()" style="background-color:red;">Reset</button>
+        </form>
+    </div>
+        <script>
+            function validateForm() {
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var contestSlug = document.getElementById("contestSlug").value;
+    
+                // Perform your validation logic here
+                if (!username || !password || !contestSlug) {
+                    alert("Please fill in all required fields.");
+                    return false;
+                }
+    
+                // If validation passes, you can submit the form
+                return true;
+            }
+       async function fetchLatest() {
+       if(validateForm()){
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const contestSlug = document.getElementById('contestSlug').value;
+            
+            //await fetch();
+            window.location.href = `/fetchLatest/?username=${username}&password=${password}&contestSlug=${contestSlug}`;        
+        }
+    }
+    async function fetchOld() {
+            if(validateForm()){
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const contestSlug = document.getElementById('contestSlug').value;
+            
+            //const response = await fetch();
+            window.location.href = `/fetchOld/?username=${username}&password=${password}&contestSlug=${contestSlug}`;        
+            }
+       }
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@ from selenium import webdriver
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 # from selenium.common.exceptions import ElementClickInterceptedException
-
+from selenium.webdriver.chrome.options import Options
 class HackerrankSession:
     """
     Class to manage Hackerrank Session
@@ -14,8 +14,19 @@ class HackerrankSession:
         username and password for the gmail admin to be passed
         this method logs in the user with a selenium driver
         """
-        self.__driver = webdriver.Chrome(ChromeDriverManager().install())
+        # "C:\Hackerrank Plagiarism Checker\Hackerrank-WebScraping-Selenium\Backend\chromedriver.exe"
+        # chrome_driver_path = "C:\Hackerrank Plagiarism Checker\Hackerrank-WebScraping-Selenium\Backend\chromedriver.exe"
+
+        # Initialize the Chrome driver with the specified path
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        self.__driver = webdriver.Chrome()
+        print("HELLO its working")
+        # self.__driver = webdriver.Chrome()
+        # self.__driver = webdriver.Chrome(ChromeDriverManager().install())
         self.__driver.get('https://www.hackerrank.com/auth/login')
+        
+        # time.sleep(5)
         m = self.__driver.find_element("name", "username")
         m.send_keys(username)
         m = self.__driver.find_element("name", "password")

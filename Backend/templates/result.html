@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Results</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        
+        }
+
+                * {
+                    font-family: monospace;
+                }
+                
+                body {
+                    padding: 2rem;
+                    margin: 0;
+                    background-color: #b6fbff;
+                }
+                
+                /* Header styles */
+                h1 {
+                    text-align:center;
+                    font-size: 3rem;
+                    color: black;
+                }
+                
+                /* Table styles */
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin-top: 20px;
+                }
+                
+                th, td {
+                    border: 1px solid #aaa;
+                    text-align: left;
+                    padding: 8px;
+                }
+                
+                /* Additional styles for better responsiveness */
+                @media (max-width: 600px) {
+                    table {
+                        width: 80%;
+                    }
+                }
+                
+    </style>
+</head>
+<body>
+    <h1>Plagiarism Results</h1>
+
+    {% for student, plagiarism_details in request.items() %}
+        <h2>{{ student }}</h2>
+        <table>
+            <tr>
+                <th>Similar to</th>
+                <th>Problem Slug</th>
+                <th>Language</th>
+                <th>Score</th>
+                <th>Source Code</th>
+            </tr>
+            {% for details in plagiarism_details %}
+                <tr>
+                    <td>{{ details[0] }}</td>
+                    <td>{{ details[1] }}</td>
+                    <td>{{ details[2] }}</td>
+                    <td>{{ details[3] }}</td>
+                    <td>{{ details[4] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Attempts</title>
+    <style>
+        
+        * {
+            font-family: monospace;
+        }
+        
+        body {
+            padding:2rem;
+            margin: 0;
+            background-color: #b6fbff;
+        }
+        
+        /* Header styles */
+        .center h1 {
+            font-size: 3rem;
+            color: white;
+        }
+        
+        /* Button styles */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s; /* Smooth hover transition */
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        /* Table styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 2px solid #aaa;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        /* Additional styles for better responsiveness */
+        @media (max-width: 600px) {
+            table {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        async function func(element){
+            var userData = element.getAttribute("user-data");
+            var endpoint = "http://127.0.0.1:8000/";  
+            var serviceURL = `${endpoint}plagiariseCode?userData=${encodeURIComponent(userData)}`;
+            //await fetch(serviceURL, {
+            //    method: 'GET',
+            //    mode: 'cors',
+            //    headers: {
+            //        'Content-Type': 'application/json',
+            //    },
+            //});
+            window.location.href = serviceURL;        
+        }
+    </script>
+    <center><h1>User Attempts</h1></center>
+    <center><button user-data = "{{data["users"]}}" onclick="return func(this)">Check Plagiarism</button></center>
+
+    {% for user in data["users"] %}
+        <span> <h2>{{ user }}</h2></span>
+        
+        <p>Number of attempts: {{ data["userAttemptscount"][user] }}</p>
+        
+        <table>
+            <tr>
+                <th>Problem Slug</th>
+                <th>ID</th>
+                <th>Language</th>
+                <th>Time</th>
+                <th>Result</th>
+                <th>Score</th>
+                <th>Source Link</th>
+                <th>Source Code</th>
+            </tr>
+        {% for attempt in data["userAttempts"][user] %}
+                <tr>
+                    <td>{{ attempt["problem_slug"] }}</td>
+                    <td>{{ attempt["id"] }}</td>
+                    <td>{{ attempt["language"] }}</td>
+                    <td>{{ attempt["time"] }}</td>
+                    <td>{{ attempt["result"] }}</td>
+                    <td>{{ attempt["score"] }}</td>
+                    <td><a href="{{ attempt["srclink"] }}">View Code</a></td>
+                    <td>{{ attempt["source_code"] }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    {% endfor %}
+</body>
+</html>
